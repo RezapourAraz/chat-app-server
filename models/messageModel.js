@@ -1,13 +1,16 @@
 const connection = require("../dbService");
+const bcrypt = require("bcrypt");
 
 module.exports = {
   postUserMessageModel: async (req) => {
     const { from, to, content } = req.body;
 
+    const encryptedMessage = await bcrypt.hash(content, 10);
+
     const result = await connection("messages").insert({
       from,
       to,
-      content,
+      content: encryptedMessage,
       updated_at: new Date(),
       created_at: new Date(),
     });

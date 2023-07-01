@@ -11,6 +11,7 @@ const io = new Server(server, {
 // routes import
 const userRouter = require("./routes/userRoute");
 const messageRouter = require("./routes/messageRoute");
+const chatRouter = require("./routes/chatRoute");
 
 //
 app.use(express.json());
@@ -20,6 +21,7 @@ app.use(express.json());
 // Routes use
 app.use("/auth", userRouter);
 app.use("/messages", messageRouter);
+app.use("/chats", chatRouter);
 
 // socket
 io.on("connection", (socket) => {
