@@ -8,14 +8,18 @@ const io = new Server(server, {
   cors: "http://192.168.1.100",
 });
 
+// routes import
+const userRouter = require("./routes/userRoute");
+const messageRouter = require("./routes/messageRoute");
+
+//
+app.use(express.json());
+
 //https://chat-app-server.iran.liara.run/
 
-// routes
-const userRouter = require("./routes/userRoute");
-const { log } = require("console");
-
-app.use(express.json());
+// Routes use
 app.use("/auth", userRouter);
+app.use("/messages", messageRouter);
 
 // socket
 io.on("connection", (socket) => {

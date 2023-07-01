@@ -43,7 +43,9 @@ module.exports = {
         "email",
         "password",
         "profile",
-        "phone"
+        "phone",
+        "created_at",
+        "updated_at"
       )
       .where("userName", userName)
       .first();
@@ -52,8 +54,29 @@ module.exports = {
       // check password
       const validPassword = await bcrypt.compare(password, user.password);
       if (validPassword) {
+        const {
+          id,
+          firstName,
+          lastName,
+          userName,
+          email,
+          profile,
+          phone,
+          created_at,
+          updated_at,
+        } = user;
         return {
-          data: user,
+          data: {
+            id,
+            firstName,
+            lastName,
+            userName,
+            email,
+            profile,
+            phone,
+            created_at,
+            updated_at,
+          },
           code: 200,
           message: "successfully",
         };
