@@ -1,15 +1,29 @@
-const chatModel = require("../models/chatModel");
+const contactModel = require("../models/contactModel");
 
 module.exports = {
-  createOrGetChat: async (req, res) => {
+  addContact: async (req, res) => {
     try {
-      const result = await chatModel.createOrGetChatModel(req);
+      const { userOne, userTwo } = req.body;
+
+      if (!userOne || !userTwo) {
+        return res.status(400).json({
+          message: "invalid data",
+          code: 400,
+        });
+      }
+
+      const result = await contactModel.addContactModel(req);
 
       if (result) {
         return res.status(201).json({
           data: result,
-          message: "created successfully",
+          message: "create successfully",
           code: 201,
+        });
+      } else {
+        return res.status(200).json({
+          message: "already contact",
+          code: 200,
         });
       }
     } catch (err) {
@@ -20,16 +34,26 @@ module.exports = {
       });
     }
   },
-  getAllUserChat: async (req, res) => {
+  getAllContacts: async (req, res) => {
     try {
-      const result = await chatModel.getAllUserChatsModel(req);
+      const { userId } = req.params;
 
-      if (result)
+      if (!userId) {
+        return res.status(400).json({
+          message: "invalid data",
+          code: 400,
+        });
+      }
+
+      const result = await contactModel.getAllContactsModel(req);
+
+      if (result) {
         return res.status(200).json({
+          data: result,
           message: "successfully",
           code: 200,
-          data: result,
         });
+      }
     } catch (err) {
       return res.status(500).json({
         message: "internal server error",
@@ -40,7 +64,7 @@ module.exports = {
   },
   deleteUserChat: async (req, res) => {
     try {
-      const result = await chatModel.deleteChatModel(req);
+      const result = await contactModel.deleteContactModel(req);
 
       if (result) {
         return res.status(200).json({

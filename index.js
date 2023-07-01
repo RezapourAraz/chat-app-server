@@ -12,6 +12,7 @@ const io = new Server(server, {
 const userRouter = require("./routes/userRoute");
 const messageRouter = require("./routes/messageRoute");
 const chatRouter = require("./routes/chatRoute");
+const contactRouter = require("./routes/contactRoute");
 
 //
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/auth", userRouter);
 app.use("/messages", messageRouter);
 app.use("/chats", chatRouter);
+app.use("/contacts", contactRouter);
 
 // socket
 io.on("connection", (socket) => {
